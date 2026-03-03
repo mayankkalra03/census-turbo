@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* Custom Theme Variables for 2026 Build */
+@theme {
+  --color-ichra-blue: #06b6d4;
+  --color-shop-purple: #a855f7;
+  --color-cyber-dark: #020617;
+}
+
+html, body {
+  height: auto !important;
+  min-height: 100%;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #020617;
+  color: #f1f5f9;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* Cyber Scanline Background Effect */
+body::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.1) 50%
+    ), 
+    linear-gradient(
+      90deg, 
+      rgba(255, 0, 0, 0.02), 
+      rgba(0, 255, 0, 0.01), 
+      rgba(0, 0, 255, 0.02)
+    );
+  z-index: 1;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Glassmorphism Components */
+.glass-card {
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* Custom Range Slider (Chrome/Safari/Edge) */
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+/* Track Styling */
+input[type='range']::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Thumb Styling (The circle) */
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: currentColor; /* Uses the accentColor set in JSX */
+  box-shadow: 0 0 15px currentColor;
+  margin-top: -8px; /* Centers thumb on track */
+  border: 2px solid #ffffff;
+  transition: transform 0.1s ease-in-out;
+}
+
+input[type='range']:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+
+/* Dropdown (Select) Reset */
+select {
+  background-image: none !important; /* Removes default arrow */
+}
+
+/* Custom Scrollbar for Class List */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
+
+/* Animation Utilities */
+.animate-glow {
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px -5px currentColor; }
+  to { box-shadow: 0 0 20px 2px currentColor; }
+}
