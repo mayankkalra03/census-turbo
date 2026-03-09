@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Users, Zap, FileSpreadsheet, ShieldCheck, Layers, Hash, ChevronDown, Plus, Minus, Loader2 } from 'lucide-react';
 import ExcelJS from 'exceljs';
@@ -6,12 +6,69 @@ import { classesData } from './data';
 
 export default function App() {
   const [productMode, setProductMode] = useState('Both');
-  const [censusType, setCensusType] = useState('Quotes');
+  const [censusType, setCensusType] = useState('Census');
   const [composition, setComposition] = useState('Employee + Spouse');
+  const [isCompositionOpen, setIsCompositionOpen] = useState(false);
+  const [isCompositionOpenUpward, setIsCompositionOpenUpward] = useState(false);
+  const [compositionMenuMaxHeight, setCompositionMenuMaxHeight] = useState(220);
   const [ichraCount, setIchraCount] = useState(5);
   const [shopCount, setShopCount] = useState(5);
   const [numFiles, setNumFiles] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
+  const compositionRef = useRef(null);
+
+  const compositionOptions = ['Employee Only', 'Employee + Spouse', 'Employee + Spouse + Child'];
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (compositionRef.current && !compositionRef.current.contains(event.target)) {
+        setIsCompositionOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsCompositionOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isCompositionOpen) return;
+
+    const updateCompositionMenuPosition = () => {
+      if (!compositionRef.current) return;
+
+      const rect = compositionRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const estimatedMenuHeight = Math.min(compositionOptions.length * 52 + 8, 260);
+      const spaceBelow = viewportHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const shouldOpenUpward = spaceBelow < estimatedMenuHeight && spaceAbove > spaceBelow;
+      const availableSpace = shouldOpenUpward ? spaceAbove : spaceBelow;
+
+      setIsCompositionOpenUpward(shouldOpenUpward);
+      setCompositionMenuMaxHeight(Math.max(120, Math.floor(availableSpace - 16)));
+    };
+
+    updateCompositionMenuPosition();
+
+    window.addEventListener('resize', updateCompositionMenuPosition);
+    window.addEventListener('scroll', updateCompositionMenuPosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updateCompositionMenuPosition);
+      window.removeEventListener('scroll', updateCompositionMenuPosition, true);
+    };
+  }, [isCompositionOpen, compositionOptions.length]);
 
   const generateSSN = () => {
     const area = Math.floor(Math.random() * 199) + 500;
@@ -164,7 +221,7 @@ export default function App() {
           <div className="pt-6 mt-auto border-t border-slate-800/40">
             <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-3">Format</h2>
             <div className="flex gap-3">
-              {['Quotes', 'Census'].map((t) => (
+              {['Census', 'Quotes'].map((t) => (
                 <button key={t} onClick={() => setCensusType(t)} className={`flex-1 py-4 rounded-xl text-xs font-black transition-all border ${censusType === t ? 'bg-slate-100 text-slate-900 border-white' : 'bg-slate-800/40 text-slate-500 border-slate-700'}`}>{t}</button>
               ))}
             </div>
@@ -192,13 +249,51 @@ export default function App() {
 
             <div className="pt-6 mt-auto">
               <label className="text-[10px] text-slate-500 uppercase font-black tracking-widest block mb-3 ml-1">Composition</label>
-              <div className="relative group">
-                <select value={composition} onChange={(e) => setComposition(e.target.value)} className="w-full appearance-none bg-slate-800/30 p-4 rounded-xl outline-none text-xs border border-slate-800 focus:border-cyan-500 font-bold transition-all pr-10 cursor-pointer">
-                  <option>Employee Only</option>
-                  <option>Employee + Spouse</option>
-                  <option>Employee + Spouse + Child</option>
-                </select>
-                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none" size={18} />
+              <div ref={compositionRef} className="relative group">
+                <button
+                  type="button"
+                  onClick={() => setIsCompositionOpen((prev) => !prev)}
+                  aria-haspopup="listbox"
+                  aria-expanded={isCompositionOpen}
+                  className="w-full bg-slate-800/30 p-4 rounded-xl outline-none text-sm border border-slate-700 focus:border-cyan-500 font-semibold transition-all pr-10 cursor-pointer text-slate-100 text-left hover:border-slate-500"
+                >
+                  {composition}
+                </button>
+                <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-200 ${isCompositionOpen ? 'rotate-180 text-cyan-400' : 'text-slate-400'}`} size={18} />
+
+                <AnimatePresence>
+                  {isCompositionOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: isCompositionOpenUpward ? 6 : -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: isCompositionOpenUpward ? 6 : -6 }}
+                      transition={{ duration: 0.16, ease: 'easeOut' }}
+                      style={{ maxHeight: compositionMenuMaxHeight }}
+                      className={`absolute z-30 w-full overflow-y-auto rounded-xl border border-slate-700 bg-slate-900/95 backdrop-blur-xl shadow-2xl ${isCompositionOpenUpward ? 'bottom-full mb-2' : 'top-full mt-2'}`}
+                    >
+                      <ul role="listbox" className="py-1">
+                        {compositionOptions.map((option) => {
+                          const isSelected = composition === option;
+
+                          return (
+                            <li key={option}>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setComposition(option);
+                                  setIsCompositionOpen(false);
+                                }}
+                                className={`w-full px-4 py-3 text-left text-sm font-semibold transition-colors ${isSelected ? 'bg-cyan-500/20 text-cyan-200' : 'text-slate-100 hover:bg-slate-800 hover:text-white'}`}
+                              >
+                                {option}
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
