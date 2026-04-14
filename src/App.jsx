@@ -82,12 +82,21 @@ export default function App() {
     return { str: `${month}/${day}/${year}`, year };
   };
 
+  const getRandomDateByAge = (minAge, maxAge, currentYear = new Date().getFullYear()) => {
+    const safeMinAge = Math.max(0, minAge);
+    const safeMaxAge = Math.max(safeMinAge, maxAge);
+    const startYear = currentYear - safeMaxAge;
+    const endYearExclusive = currentYear - safeMinAge + 1;
+    return getRandomDate(startYear, endYearExclusive);
+  };
+
   const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
   const generateCensus = async () => {
     setIsGenerating(true);
     await new Promise(resolve => setTimeout(resolve, 600));
 
+    const currentYear = new Date().getFullYear();
     const firstNames = ['James', 'Mary', 'Robert', 'Patricia', 'John', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth'];
     const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
 
@@ -144,18 +153,40 @@ export default function App() {
           const eeId = Math.floor(Math.random() * 89999) + 10000;
           const sharedLastName = getRandom(lastNames);
           const randomClass = getRandom(classesData.filter(c => c.productLineCd === prodType));
+          const householdUsedNames = new Set();
+          const pickUniqueHouseholdName = () => {
+            const availableNames = firstNames.filter((name) => !householdUsedNames.has(name));
+            const selectedName = availableNames.length > 0
+              ? getRandom(availableNames)
+              : `${getRandom(firstNames)}${Math.floor(Math.random() * 90) + 10}`;
+            householdUsedNames.add(selectedName);
+            return selectedName;
+          };
+
           const tiers = composition === 'Employee Only' ? ['Employee'] :
             composition === 'Employee + Spouse' ? ['Employee', 'Spouse'] :
               ['Employee', 'Spouse', 'Child'];
+          const minimumEmployeeAge = tiers.includes('Child') ? 28 : 21;
+          const employeeDob = getRandomDateByAge(minimumEmployeeAge, 64, currentYear);
+          const employeeAge = currentYear - employeeDob.year;
 
           tiers.forEach((tier, tIdx) => {
-            const fn = getRandom(firstNames);
+            const fn = pickUniqueHouseholdName();
             const isEE = tier === 'Employee';
-            const dobObj = getRandomDate(1965, 2004);
+            let dobObj = employeeDob;
+            if (tier === 'Spouse') {
+              dobObj = getRandomDateByAge(18, Math.max(18, employeeAge - 1), currentYear);
+            }
+            if (tier === 'Child') {
+              const maxChildAge = Math.min(26, Math.max(0, employeeAge - 16));
+              dobObj = getRandomDateByAge(12, maxChildAge, currentYear);
+            }
+
+            const memberAge = currentYear - dobObj.year;
             sheet.addRow({
               buffer: '', id: eeId, ln: sharedLastName, fn: fn,
               email: `${fn.toLowerCase()}.${sharedLastName.toLowerCase()}${eeId}${tIdx}@yopmail.com`,
-              mType: tier, ssn: generateSSN(), dob: dobObj.str, age: 2026 - dobObj.year,
+              mType: tier, ssn: generateSSN(), dob: dobObj.str, age: memberAge,
               zip: '06106', income: isEE ? (Math.floor(Math.random() * 50000) + 30000).toFixed(2) : '',
               className: isEE ? randomClass.name : '', gender: getRandom(['M', 'F']), dis: 'N',
               doh: isEE ? '01/15/2024' : '', a1: '1 Main St', a2: '', city: 'Hartford', state: 'Connecticut',
