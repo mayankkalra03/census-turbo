@@ -169,6 +169,7 @@ export default function App() {
           const minimumEmployeeAge = tiers.includes('Child') ? 28 : 21;
           const employeeDob = getRandomDateByAge(minimumEmployeeAge, 64, currentYear);
           const employeeAge = currentYear - employeeDob.year;
+          const employeeGender = getRandom(['M', 'F']);
 
           tiers.forEach((tier, tIdx) => {
             const fn = pickUniqueHouseholdName();
@@ -182,13 +183,21 @@ export default function App() {
               dobObj = getRandomDateByAge(12, maxChildAge, currentYear);
             }
 
+            let memberGender = employeeGender;
+            if (tier === 'Spouse') {
+              memberGender = employeeGender === 'M' ? 'F' : 'M';
+            }
+            if (tier === 'Child') {
+              memberGender = getRandom(['M', 'F']);
+            }
+
             const memberAge = currentYear - dobObj.year;
             sheet.addRow({
               buffer: '', id: eeId, ln: sharedLastName, fn: fn,
               email: `${fn.toLowerCase()}.${sharedLastName.toLowerCase()}${eeId}${tIdx}@yopmail.com`,
               mType: tier, ssn: generateSSN(), dob: dobObj.str, age: memberAge,
               zip: '06106', income: isEE ? (Math.floor(Math.random() * 50000) + 30000).toFixed(2) : '',
-              className: isEE ? randomClass.name : '', gender: getRandom(['M', 'F']), dis: 'N',
+              className: isEE ? randomClass.name : '', gender: memberGender, dis: 'N',
               doh: isEE ? '01/15/2024' : '', a1: '1 Main St', a2: '', city: 'Hartford', state: 'Connecticut',
               mHome: 'yes', paper: 'yes', cStart: isEE ? '06/01/2026' : '',
               cPrem: isEE ? (Math.floor(Math.random() * 5000) + 1000).toFixed(2) : '',
