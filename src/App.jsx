@@ -170,7 +170,8 @@ export default function App() {
         const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `${productMode}_Census_${f}.xlsx`;
+        const fileTypeLabel = isQuote ? 'Quotes' : 'Census';
+        a.download = `${productMode}_${fileTypeLabel}_${f}.xlsx`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
