@@ -97,7 +97,8 @@ export default function App() {
     await new Promise(resolve => setTimeout(resolve, 600));
 
     const currentYear = new Date().getFullYear();
-    const firstNames = ['James', 'Mary', 'Robert', 'Patricia', 'John', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth'];
+    const maleFirstNames = ['James', 'Robert', 'John', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles'];
+    const femaleFirstNames = ['Mary', 'Patricia', 'Jennifer', 'Linda', 'Elizabeth', 'Kate', 'Susan', 'Jessica', 'Sarah', 'Karen'];
     const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
 
     try {
@@ -154,11 +155,12 @@ export default function App() {
           const sharedLastName = getRandom(lastNames);
           const randomClass = getRandom(classesData.filter(c => c.productLineCd === prodType));
           const householdUsedNames = new Set();
-          const pickUniqueHouseholdName = () => {
-            const availableNames = firstNames.filter((name) => !householdUsedNames.has(name));
+          const pickUniqueHouseholdName = (gender) => {
+            const namesList = gender === 'M' ? maleFirstNames : femaleFirstNames;
+            const availableNames = namesList.filter((name) => !householdUsedNames.has(name));
             const selectedName = availableNames.length > 0
               ? getRandom(availableNames)
-              : `${getRandom(firstNames)}${Math.floor(Math.random() * 90) + 10}`;
+              : `${getRandom(namesList)}${Math.floor(Math.random() * 90) + 10}`;
             householdUsedNames.add(selectedName);
             return selectedName;
           };
@@ -172,7 +174,6 @@ export default function App() {
           const employeeGender = getRandom(['M', 'F']);
 
           tiers.forEach((tier, tIdx) => {
-            const fn = pickUniqueHouseholdName();
             const isEE = tier === 'Employee';
             let dobObj = employeeDob;
             if (tier === 'Spouse') {
@@ -190,6 +191,8 @@ export default function App() {
             if (tier === 'Child') {
               memberGender = getRandom(['M', 'F']);
             }
+
+            const fn = pickUniqueHouseholdName(memberGender);
 
             const memberAge = currentYear - dobObj.year;
             sheet.addRow({
