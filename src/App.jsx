@@ -135,7 +135,7 @@ export default function App() {
           : [
             '', 'EE ID', 'Last Name', 'First Name', 'Email', 'Member Type', 'SSN',
             'Date of Birth', 'Age', 'Gender', 'Disabled', 'Date of Hire',
-            'Annual Household Income', 'Class Name', 'Address Line 1', 'Apt/Floor # Line 2', 'City',
+            'Annual Household Income', 'Contribution Name', 'Address Line 1', 'Apt/Floor # Line 2', 'City',
             'Zip Code', 'State', 'Mailing Same as Home (yes/no)',
             'Paperless (yes/no)', 'Contribution Start Date', 'Current Group Plan Premium', 'Renewal Group Plan Premium'
           ];
