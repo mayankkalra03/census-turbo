@@ -71,7 +71,8 @@ export default function App() {
   }, [isCompositionOpen, compositionOptions.length]);
 
   const generateSSN = () => {
-    const area = Math.floor(Math.random() * 199) + 500;
+    let area = Math.floor(Math.random() * 199) + 500;
+    if (area === 666) area++;
     return `${area}-${Math.floor(Math.random() * 89) + 11}-${Math.floor(Math.random() * 8999) + 1001}`;
   };
 
