@@ -133,7 +133,7 @@ export default function App() {
 
         // 3. MANUALLY INSERT HEADERS AT ROW 2
         const headers = isQuote
-          ? ['', 'EE ID', 'Last Name', 'First Name', 'Member Type', 'Zip Code', 'DOB', 'Annual Household Income', 'Class Name', 'Current Group Plan Premium', 'Renewal Group Plan Premium']
+          ? ['', 'EE ID', 'Last Name', 'First Name', 'Member Type', 'Zip Code', 'DOB', 'Annual Household Income', 'Contribution Name', 'Current Group Plan Premium', 'Renewal Group Plan Premium']
           : [
             '', 'EE ID', 'Last Name', 'First Name', 'Email', 'Member Type', 'SSN',
             'Date of Birth', 'Age', 'Gender', 'Disabled', 'Date of Hire',
