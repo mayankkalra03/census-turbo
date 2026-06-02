@@ -99,7 +99,7 @@ export default function App() {
 
     const currentYear = new Date().getFullYear();
     const maleFirstNames = ['James', 'Robert', 'John', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles'];
-    const femaleFirstNames = ['Mary', 'Patricia', 'Jennifer', 'Linda', 'Elizabeth', 'Kate', 'Susan', 'Jessica', 'Sarah', 'Karen'];
+    const femaleFirstNames = ['Mary', 'Patricia', 'Jennifer', 'Ella', 'Elizabeth', 'Kate', 'Susan', 'Jessica', 'Sarah', 'Karen'];
     const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
 
     try {
@@ -203,7 +203,7 @@ export default function App() {
               zip: '06106', income: isEE ? (Math.floor(Math.random() * 50000) + 30000).toFixed(2) : '',
               className: isEE ? randomClass.name : '', gender: memberGender, dis: 'N',
               doh: isEE ? '01/15/2024' : '', a1: '1 Main St', a2: '', city: 'Hartford', state: 'Connecticut',
-              mHome: 'yes', paper: 'yes', cStart: isEE ? '06/01/2026' : '',
+              mHome: 'yes', paper: 'yes', cStart: '',
               cPrem: isEE ? (Math.floor(Math.random() * 5000) + 1000).toFixed(2) : '',
               rPrem: isEE ? (Math.floor(Math.random() * 5000) + 1100).toFixed(2) : ''
             });
