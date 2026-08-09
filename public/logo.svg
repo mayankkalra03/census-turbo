@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="14 14 72 72" fill="none">
+  <defs>
+    <!-- Facet Gradients matching Theme (Cyan & Purple) -->
+    <linearGradient id="facet-1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <linearGradient id="facet-2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <linearGradient id="facet-3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <linearGradient id="facet-4" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+
+    <linearGradient id="facet-5" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <linearGradient id="facet-6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+
+    <linearGradient id="facet-7" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+
+    <linearGradient id="facet-8" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+
+    <!-- Node Gradient -->
+    <radialGradient id="node-grad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="60%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </radialGradient>
+  </defs>
+
+  <!-- Polyhedron Facets -->
+  <!-- 1. Top -->
+  <polygon points="30,26 59,21 59,41" fill="url(#facet-1)" />
+  <!-- 2. Top-Right -->
+  <polygon points="59,21 79,43 59,41" fill="url(#facet-2)" />
+  <!-- 3. Right -->
+  <polygon points="59,41 79,43 70,72" fill="url(#facet-3)" />
+  <!-- 4. Center Upper -->
+  <polygon points="30,26 59,41 40,57" fill="url(#facet-4)" />
+  <!-- 5. Center Lower -->
+  <polygon points="59,41 70,72 40,57" fill="url(#facet-5)" />
+  <!-- 6. Bottom -->
+  <polygon points="40,57 70,72 41,78" fill="url(#facet-6)" />
+  <!-- 7. Bottom-Left -->
+  <polygon points="21,56 40,57 41,78" fill="url(#facet-7)" />
+  <!-- 8. Far-Left -->
+  <polygon points="30,26 21,56 40,57" fill="url(#facet-8)" />
+
+  <!-- Connecting Lines -->
+  <!-- Outer Hull -->
+  <polygon points="30,26 59,21 79,43 70,72 41,78 21,56" fill="none" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round" />
+  
+  <!-- Internal Structural Lines -->
+  <line x1="30" y1="26" x2="59" y2="41" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="59" y1="21" x2="59" y2="41" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="79" y1="43" x2="59" y2="41" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="70" y1="72" x2="59" y2="41" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="40" y1="57" x2="59" y2="41" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="30" y1="26" x2="40" y2="57" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="21" y1="56" x2="40" y2="57" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="41" y1="78" x2="40" y2="57" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+  <line x1="70" y1="72" x2="40" y2="57" stroke="#090d16" stroke-width="3.5" stroke-linecap="round" />
+
+  <!-- Vertex Node Circles -->
+  <circle cx="30" cy="26" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="59" cy="21" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="79" cy="43" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="70" cy="72" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="41" cy="78" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="21" cy="56" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="59" cy="41" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+  <circle cx="40" cy="57" r="4" fill="url(#node-grad)" stroke="#090d16" stroke-width="1.5" />
+</svg>
